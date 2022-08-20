@@ -1,0 +1,1 @@
+<h1>Hi, Welcome to Laratube</h1>

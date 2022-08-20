@@ -1,0 +1,32 @@
+<div class="container">
+    <div [innerHtml]="target"> </div>
+    <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+    <form #userForm="ngForm" (ngSubmit)="updateStudent()">
+        <div class="mb-3 mt-3">
+            <label for="email" class="form-label">Name:</label>
+            <input type="text" pattern="[a-zA-Z]+$" #userName="ngModel" class="form-control" name="name"
+                [(ngModel)]="userobj.name" required minlength="3" maxlength="15">
+            <span *ngIf="userName.invalid && userName.touched && !userForm.submitted" style="color: red;">Please enter a
+                valid
+                name</span>
+        </div>
+        <div class="mb-3">
+            <label for="pwd" class="form-label">EMail:</label>
+            <input type="email" #userEmail="ngModel" class="form-control" name="email" [(ngModel)]="userobj.email"
+                required email>
+            <span *ngIf="userEmail.invalid && userEmail.touched && !userForm.submitted" style="color: red;">Please enter
+                a
+                valid email</span>
+        </div>
+        <div class="mb-3">
+            <label for="pwd" class="form-label">Contact:</label>
+            <input type="text" class="form-control" name="contact" [(ngModel)]="userobj.contact" required
+                pattern="[0-9]+$" #userContact="ngModel">
+            <span *ngIf="userContact.invalid && userContact.touched && !userForm.submitted" style="color: red;">Please
+                enter a
+                valid contact</span>
+        </div>
+        <button class="btn btn-primary">Submit</button>
+    </form>
+</div>
