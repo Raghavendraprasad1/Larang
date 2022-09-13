@@ -15,16 +15,11 @@ class DynamicListController extends Controller
 
     public function getlist(Request $req)
     {
-       $city =  $req->city;
         $model = new Dynamic();
 
-       $result = $model->getdata($city);
+       $result = $model->getdata();
 
         $result =  unserialize($result->city);
-
-        
-
-        //    print_r($result); die;
 
         $list="";
         //    foreach($result as $r)

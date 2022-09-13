@@ -15,13 +15,14 @@
     <h1>The datalist element</h1>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <form action="/action_page.php" method="get">
+    <form action="/#">
         <label for="browser">Choose your browser from the list:</label>
         <input list="browsers" name="browser" id="browser">
 
         <datalist id="browsers" class="selectdatalist">
 
         </datalist>
+
         <input type="submit">
     </form>
 
