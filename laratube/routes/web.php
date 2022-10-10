@@ -26,15 +26,15 @@ Route::get('/', function () {
 Route::view('admin', 'hello');
 
 // Route::get('path', 'controller file');
-Route::get('user', [UsersController::class, 'show']);
-Route::get('student', [UsersController::class, 'getData']);
-Route::post('addstudent', [UsersController::class, 'addData']);
-Route::delete('deleteStudent/{id}', [UsersController::class, 'deleteData']);
+// Route::get('user', [UsersController::class, 'show']);
+// Route::get('student', [UsersController::class, 'getData']);
+// Route::post('addstudent', [UsersController::class, 'addData']);
+// Route::delete('deleteStudent/{id}', [UsersController::class, 'deleteData']);
 
-// route to get records to edit
-Route::get('getOneStudent/{id}', [UsersController::class, 'getOneData']);
-// route to update, modifies record
-Route::patch('updateStudent/{id}', [UsersController::class, 'updateData']);
+// // route to get records to edit
+// Route::get('getOneStudent/{id}', [UsersController::class, 'getOneData']);
+// // route to update, modifies record
+// Route::patch('updateStudent/{id}', [UsersController::class, 'updateData']);
 
 // routes for Dynamiclist controller:
 Route::get('dynamiclist', [DynamicListController::class, 'dynaliclist']);

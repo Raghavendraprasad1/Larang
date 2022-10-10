@@ -9,13 +9,19 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserComponent } from './user/user.component';
 import { EditComponent } from './edit/edit.component';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './auth.guard';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     UserComponent,
-    EditComponent
+    EditComponent,
+    RegisterComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,7 +31,7 @@ import { EditComponent } from './edit/edit.component';
     BrowserAnimationsModule,
     NgxSpinnerModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

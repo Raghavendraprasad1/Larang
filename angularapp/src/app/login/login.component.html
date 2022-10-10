@@ -1,0 +1,27 @@
+<div class="container">
+    <div [innerHtml]="target"> </div>
+    <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+    <form (ngSubmit)="loginUser()">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <h3 style="text-align: center;"><u> User-Login</u></h3>
+
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email" [(ngModel)]="login.email"
+                        aria-describedby="emailHelp">
+
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" [(ngModel)]="login.password">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </div>
+    </form>
+
+</div>

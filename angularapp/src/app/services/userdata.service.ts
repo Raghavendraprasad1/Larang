@@ -1,56 +1,70 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from  '@angular/common/http'; 
-import {environment} from '../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { User } from '../user/user.model';
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserdataService {
-  userdata:any;
-  private API_URL= environment.API_URL;
-  constructor(private httpRequest:HttpClient) { }
+  private API_URL = environment.API_URL;
+  userdata: any;
 
-  getUserData()
-  {
-    return this.userdata = [
-      {
-        'name': 'raghav',
-        'email': 'raghav@gmail.com'
-      },
-      {
-        'name': 'himanshu',
-        'email': 'himanshu@gmail.com'
-      }
-    ];
-  }
 
-  getDataFormApi()
-  {
-    return this.httpRequest.get(this.API_URL+'student');
-  }
+  tokenVal: any = localStorage.getItem('token');
 
-  addStudent(data:any)
-  {
-    return this.httpRequest.post(this.API_URL+'addstudent', data);
-  
-  }
+  constructor(private httpRequest: HttpClient,
+  ) { }
 
-  deleteData(id:number)
-  {
-    console.log("value of Id: ",id);
-    return this.httpRequest.delete(this.API_URL+'deleteStudent/'+id);
+  currentToken = this.tokenVal !== null ? this.tokenVal : new User();
+
+  header = new HttpHeaders({
+    'Authorization': "Bearer " + this.currentToken,
+    'token': this.currentToken
+  });
+
+
+  getDataFormApi() {
+    return this.httpRequest.get(this.API_URL + 'student', {
+      headers: this.header
+    });
 
   }
 
-  getOneStudent(id:any)
-  {
-    return this.httpRequest.get(this.API_URL+'getOneStudent/'+id);
+  testLaravelApi() {
+    return this.httpRequest.get(this.API_URL + 'user', {
+      headers: this.header
+    });
+
   }
 
-  updateStudent(id:any, data:any)
-  {
-    return this.httpRequest.patch(this.API_URL+'updateStudent/'+id, data);
+  addStudent(data: any) {
+    return this.httpRequest.post(this.API_URL + 'addstudent', data);
+
   }
-  
+
+  deleteData(id: number) {
+    console.log("value of Id: ", id);
+    return this.httpRequest.delete(this.API_URL + 'deleteStudent/' + id);
+
+  }
+
+  getOneStudent(id: any) {
+    return this.httpRequest.get(this.API_URL + 'getOneStudent/' + id);
+  }
+
+  updateStudent(id: any, data: any) {
+    return this.httpRequest.patch(this.API_URL + 'updateStudent/' + id, data);
+  }
+
+  registerUser(data: any) {
+    return this.httpRequest.post(this.API_URL + 'register', data);
+
+  }
+
+  loginUser(data: any) {
+    return this.httpRequest.post(this.API_URL + 'login', data);
+  }
+
 }
