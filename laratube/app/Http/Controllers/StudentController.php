@@ -15,7 +15,7 @@ class StudentController extends Controller
 
     public Function __construct()
     {
-        JWTAuth::parseToken()->authenticate();
+       $user =  JWTAuth::parseToken()->authenticate();
     }
     /**
      * Display a listing of the resource.
@@ -35,69 +35,59 @@ class StudentController extends Controller
         return response()->json($data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function getOneData(Request $req)
     {
-        //
+        $studendModel = new Student();
+
+         $id = $req->id;
+
+        // echo "<pre>";
+        $data = $studendModel->getOneStudent($id);
+        return response()->json($data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function updateData(Request $req)
     {
-        //
+        $json = array();
+        $id = $req->id;
+        $studendModel = new Student();
+        $result = $studendModel->updateStudent($id,$req->all());
+
+        if($result)
+        {
+            $json['code'] = 1;
+            $json['message'] = 'Details updated successfully';
+        }
+        else
+        {
+            $json['code'] = 2;
+            $json['message'] = 'Error while updating details';
+        }
+
+        return response()->json($json);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Student  $student
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Student $student)
+    function deleteData(Request $req)
     {
-        //
+        $studendModel = new Student();
+
+        $id = $req->id;
+
+        $del_result =  $studendModel->deleteData($id);
+
+        if($del_result)
+        {
+            $json['code'] = 1;
+            $json['message'] = 'Record deleted successfully';
+        }
+        else
+        {
+            $json['code'] = 2;
+            $json['message'] = 'Error while deleting record';
+        }
+
+        return response()->json($json);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Student  $student
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Student $student)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Student  $student
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Student $student)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Student  $student
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Student $student)
-    {
-        //
-    }
+   
 }

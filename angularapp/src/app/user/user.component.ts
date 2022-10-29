@@ -44,7 +44,6 @@ export class UserComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // console.log(this.userdata1);
     this.showApiData();
     this.testLaravelApi();
   }

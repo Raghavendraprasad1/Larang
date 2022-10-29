@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { User } from '../user/user.model';
 
 
 @Injectable({
@@ -11,21 +10,26 @@ export class UserdataService {
   private API_URL = environment.API_URL;
   userdata: any;
 
-
-  tokenVal: any = localStorage.getItem('token');
+  tokenVal = localStorage.getItem('token');
+  header = new HttpHeaders({
+    'Authorization': `Bearer ${this.tokenVal}`,
+  });
 
   constructor(private httpRequest: HttpClient,
-  ) { }
+  ) {
 
-  currentToken = this.tokenVal !== null ? this.tokenVal : new User();
+  }
 
-  header = new HttpHeaders({
-    'Authorization': "Bearer " + this.currentToken,
-    'token': this.currentToken
-  });
+  loginUser(data: any) {
+    return this.httpRequest.post(this.API_URL + 'login', data);
+  }
 
 
   getDataFormApi() {
+    this.tokenVal = localStorage.getItem('token');
+    this.header = new HttpHeaders({
+      'Authorization': `Bearer ${this.tokenVal}`,
+    });
     return this.httpRequest.get(this.API_URL + 'student', {
       headers: this.header
     });
@@ -46,16 +50,21 @@ export class UserdataService {
 
   deleteData(id: number) {
     console.log("value of Id: ", id);
-    return this.httpRequest.delete(this.API_URL + 'deleteStudent/' + id);
-
+    return this.httpRequest.delete(this.API_URL + 'deleteStudent/' + id, {
+      headers: this.header
+    });
   }
 
   getOneStudent(id: any) {
-    return this.httpRequest.get(this.API_URL + 'getOneStudent/' + id);
+    return this.httpRequest.get(this.API_URL + 'getOneStudent/' + id, {
+      headers: this.header
+    });
   }
 
   updateStudent(id: any, data: any) {
-    return this.httpRequest.patch(this.API_URL + 'updateStudent/' + id, data);
+    return this.httpRequest.patch(this.API_URL + 'updateStudent/' + id, data, {
+      headers: this.header
+    });
   }
 
   registerUser(data: any) {
@@ -63,8 +72,6 @@ export class UserdataService {
 
   }
 
-  loginUser(data: any) {
-    return this.httpRequest.post(this.API_URL + 'login', data);
-  }
+
 
 }

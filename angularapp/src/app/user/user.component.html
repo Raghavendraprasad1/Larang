@@ -2,6 +2,8 @@
   <div [innerHtml]="target"> </div>
   <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
 
+  <h2 style="text-align:center;" class="mb-5 mt-5" > <u>Student Dashboard</u> </h2>
+
   <form #userForm="ngForm" (ngSubmit)="addStudent()">
     <div class="mb-3 mt-3">
       <label for="email" class="form-label">Name:</label>
@@ -25,14 +27,7 @@
         valid contact</span>
     </div>
 
-    <!-- <div class="mb-3">
-      <label for="">Subject:</label> &nbsp;
-      <div class="form-check form-check-inline" *ngFor="let subject of subjects">
-        <input type="checkbox" class="form-check-input" id="check1" name="option1" value="{{subject.value}}"
-          (change)="subjectChange($event)">
-        <label class="form-check-label" for="check1">{{subject.key}}</label>
-      </div>
-    </div> -->
+    
     <button class="btn btn-primary">Submit</button>
   </form>
 
@@ -52,7 +47,7 @@
         <td>{{st.email}}</td>
         <td>{{st.contact}}</td>
         <td> <button class="btn btn-danger" (click)="deleteData(st.id)">Delete</button> <button
-            class="btn btn-primary mx-2" routerLink="edit/{{st.id}}">Edit</button> </td>
+            class="btn btn-primary mx-2" routerLink="/edit/{{st.id}}">Edit</button> </td>
       </tr>
     </tbody>
 

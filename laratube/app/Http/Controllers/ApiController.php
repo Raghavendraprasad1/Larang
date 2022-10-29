@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 // use Validator;
@@ -15,18 +16,19 @@ class ApiController extends Controller
 {
     public function register(Request $req)
     {
-        $data =  $req->only('name', 'email', 'password');
+        $data =  $req->only('name', 'email', 'password', 'contact');
 
 
         $validator = Validator::make($data, [
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:6'
+            'password' => 'required|string|min:6',
+            'contact' => 'required|string|min:10'
         ]);
 
         //Send failed response if request is not valid
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors() ], 200);
+            return response()->json(['message' => $validator->errors(), 'code' => 2 ], 200);
         }
 
        $user =  User::create([
@@ -37,13 +39,23 @@ class ApiController extends Controller
 
         if($user)
         {
-            //User created, return success response
+            $student =  Student::create([
+                'contact'=> $req->contact,
+                'user_id'=> $user->id,  
+            ]);
+
+
+            if($student)
+            {
+                //User created, return success response
             return response()->json([
                 'success' => true,
                 'code' => 1,
                 'message' => 'User created successfully',
                 'data' => $user
             ], Response::HTTP_OK);
+            }
+            
         }
     }
 
@@ -93,13 +105,11 @@ class ApiController extends Controller
     public function get_user(Request $request)
     {
 
-        $data =  $request->only('name', 'age', 'profile_image');
+        $data =  $request->only('token');
 
 
         $validator = Validator::make($data, [
-            'name' => 'required|string',
-            'age' => 'required|integer',
-            'profile_image' => 'required|image|mimes:jpeg,jpg,png,gif',
+            'token' => 'required',
         ]);
 
         //Send failed response if request is not valid
@@ -107,41 +117,9 @@ class ApiController extends Controller
             return response()->json(['error' => $validator->errors(), "status" => "error" ], 200);
         }
         
-        $data= array();
-
-        $data['name'] = $request->name;
-        $data['age'] = $request->age;
-
-        if($request->file('profile_image')){
-            $file= $request->file('profile_image');
-            $filename= "profile-images/".$file->getClientOriginalName();
-            $file-> move(public_path('images'), $filename);
-            $data['profile_image'] = $filename;
-        }
-        
-
-        DB::table('student')->insert($data);
-        $inserted_id = DB::getPdo()->lastInsertId();
         
         
-        $result = DB::table('student')->where("id", $inserted_id)->get()->first();
-        
-        return response()->json(
-            [
-                "body" => 
-                [
-                    "user" => [
-                        "id" => $result->id,
-                        "name" =>  $result->name,
-                        "age" => $result->age,
-                        "profile_image" => $result->profile_image,
-                        "created_at"=> $result->created_at,
-                        "updated_at"=> $result->updated_at
-                    ]
-                ],
-                "status" => "successful"
-            ]
-                );
+       
  
         // $user = JWTAuth::authenticate($request->token);
  

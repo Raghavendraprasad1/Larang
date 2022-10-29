@@ -8,6 +8,10 @@ import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   {
+    path: '',
+    component: LoginComponent
+  },
+  {
     path: 'dashboard',
     component: UserComponent,
     canActivate: [AuthGuard]
@@ -17,13 +21,11 @@ const routes: Routes = [
     component: RegisterComponent,
     canActivate: [AuthGuard]
   },
-  {
-    path: '',
-    component: LoginComponent
-  },
+
   {
     path: 'edit/:id',
-    component: EditComponent
+    component: EditComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

@@ -30,15 +30,15 @@ Route::group(['middleware' => ['jwt.verify']], function(){
     
     Route::get('logout', [ApiController::class, 'logout']);
 
-    Route::post('user', [ApiController::class, 'get_user']);
+    Route::get('user', [ApiController::class, 'get_user']);
     Route::get('oneuser/{id}', [ApiController::class, 'get_one_user']);
     Route::get('student', [StudentController::class, 'getData']);
     Route::post('addstudent', [UsersController::class, 'addData']);
-    Route::delete('deleteStudent/{id}', [UsersController::class, 'deleteData']);
+    Route::delete('deleteStudent/{id}', [StudentController::class, 'deleteData']);
 
     // route to get records to edit
-    Route::get('getOneStudent/{id}', [UsersController::class, 'getOneData']);
+    Route::get('getOneStudent/{id}', [StudentController::class, 'getOneData']);
     // route to update, modifies record
-    Route::patch('updateStudent/{id}', [UsersController::class, 'updateData']);
+    Route::patch('updateStudent/{id}', [StudentController::class, 'updateData']);
 
 });

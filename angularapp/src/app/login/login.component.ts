@@ -12,11 +12,12 @@ import { Login } from './login.model';
 export class LoginComponent implements OnInit {
 
   login = new Login
-  target:any = ''
-  token:any;
+  target: any = ''
+  token: any;
+  tokenval:any = '';
 
   constructor(
-    private spinner : NgxSpinnerService,
+    private spinner: NgxSpinnerService,
     private userdata: UserdataService,
     private route: Router
   ) { }
@@ -24,12 +25,11 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  loginUser()
-  {
+ 
+  loginUser() {
     this.spinner.show();
 
-    if(this.login.email == undefined || this.login.password == undefined)
-    {
+    if (this.login.email == undefined || this.login.password == undefined) {
       this.target = '<div class="alert alert-danger" > Error! Please enter the details</div>';
       setTimeout(() => {
         /** spinner ends after 5 seconds */
@@ -39,29 +39,30 @@ export class LoginComponent implements OnInit {
     }
 
     // console.log("inserted data: ",this.userobj.name);
-    this.userdata.loginUser(this.login).subscribe( (response: any) =>{
+    this.userdata.loginUser(this.login).subscribe((response: any) => {
       // this.spinner.hide();
       setTimeout(() => {
         /** spinner ends after 5 seconds */
         this.spinner.hide();
       }, 1000);
-     
-      this.login.email='';
-      this.login.password='';
-     
+
+      this.login.email = '';
+      this.login.password = '';
+
       console.log(response);
 
-      if(response.code ==1)
-      {
+      if (response.code == 1) {
         this.token = localStorage.setItem('token', response.token);
 
-        this.target = '<div class="alert alert-success" > Success! '+response.message+'</div>';
-         this.route.navigate(['dashboard']);
+        console.log("set token to storage", localStorage.getItem('token'));
+
+        this.target = '<div class="alert alert-success" > Success! ' + response.message + '</div>';
+
+        this.route.navigate(['dashboard']);
 
       }
-      else if(response.code ==2)
-      {
-        this.target = '<div class="alert alert-danger" > Error! '+response.message+'</div>';
+      else if (response.code == 2) {
+        this.target = '<div class="alert alert-danger" > Error! ' + response.message + '</div>';
       }
     });
   }

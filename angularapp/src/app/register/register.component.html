@@ -2,27 +2,41 @@
     <div [innerHtml]="target"> </div>
     <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
 
-    <form (ngSubmit)="registerUser()">
+    <form  #userForm="ngForm" (ngSubmit)="registerUser()">
         <div class="row">
             <div class="col-sm-3"></div>
             <div class="col-sm-6">
                 <h3 style="text-align: center;">Register Form:</h3>
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="email" class="form-control" name="name" [(ngModel)]="register.name"
-                        aria-describedby="emailHelp">
+                <div class="mb-3 mt-3">
+                    <label for="email" class="form-label">Name:</label>
+                    <input type="text" pattern="[a-zA-Z]+$" #userName="ngModel" class="form-control" name="name"
+                      [(ngModel)]="register.name" required minlength="3" maxlength="15">
+                    <span *ngIf="userName.invalid && userName.touched && !userForm.submitted" style="color: red;">Please enter a valid
+                      name</span>
+                  </div>
 
-                </div>
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email</label>
-                    <input type="email" class="form-control" name="email" [(ngModel)]="register.email"
-                        aria-describedby="emailHelp">
+                    <label for="pwd" class="form-label">EMail:</label>
+                    <input type="email" #userEmail="ngModel" class="form-control" name="email" [(ngModel)]="register.email" required
+                      email>
+                    <span *ngIf="userEmail.invalid && userEmail.touched && !userForm.submitted" style="color: red;">Please enter a
+                      valid email</span>
+                  </div>
+                <div class="mb-3">
+                    <label for="pwd" class="form-label">Contact:</label>
+                    <input type="text" class="form-control" name="contact" [(ngModel)]="register.contact" required pattern="[0-9]+$"
+                      #userContact="ngModel">
+                    <span *ngIf="userContact.invalid && userContact.touched && !userForm.submitted" style="color: red;">Please enter a
+                      valid contact</span>
+                  </div>
 
-                </div>
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" name="password" [(ngModel)]="register.password">
-                </div>
+                    <label for="pwd" class="form-label">Password:</label>
+                    <input type="password" class="form-control" name="password" [(ngModel)]="register.password" required
+                      #userPassword="ngModel">
+                    <span *ngIf="userPassword.invalid && userPassword.touched && !userForm.submitted" style="color: red;">Please enter a
+                      valid password</span>
+                  </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
