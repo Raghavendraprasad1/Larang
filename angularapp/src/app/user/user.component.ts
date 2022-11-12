@@ -3,6 +3,7 @@ import { UserdataService } from '../services/userdata.service';
 import { User } from './user.model';
 import { NgxSpinnerService, Spinner } from "ngx-spinner";
 import { HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -10,11 +11,16 @@ import { HttpHeaders } from '@angular/common/http';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
+  page:number = 1;
   userdata1: any;
   studentData: any;
   userobj = new User();
   target: string = '';
   token = '';
+  limit:number= 5;
+  skip:number=0;
+  studentResult:any;
+  collectionSize:number=0;
 
   subjects = [
     {
@@ -37,7 +43,7 @@ export class UserComponent implements OnInit {
   constructor(
     private userdata: UserdataService,
     private spinner: NgxSpinnerService,
-
+    private route: Router
   ) {
   }
 
@@ -45,21 +51,43 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     this.showApiData();
-    this.testLaravelApi();
   }
 
   showApiData() {
-    this.userdata.getDataFormApi().subscribe(res => {
-      console.log(res)
-      this.studentData = res;
+    console.log("page value: ",this.page);
+
+      if(this.page == 1)
+      {
+        this.skip = 0;
+      }
+      else{
+        this.skip= (this.page-1) * this.limit;
+      }
+
+      console.log("skip value: ",this.skip);
+
+    var reqObject = {
+      'limit' : this.limit,
+      'skip' : this.skip,
+      'search': this.userobj.search
+    }
+
+    this.userdata.getDataFormApi(reqObject).subscribe(res => {
+      
+      console.log('res value: ', res);
+      // this.studentData = res;
+      this.studentResult = res;
+      this.studentData = this.studentResult.data;
+      this.collectionSize = this.studentResult.count;
     });
   }
 
-  testLaravelApi() {
-    this.userdata.testLaravelApi().subscribe(res => {
-      console.log('laravel-api-test', res)
-    });
+  searchUser()
+  {
+    this.showApiData();
   }
+
+ 
 
   addStudent() {
     this.spinner.show();
@@ -123,6 +151,30 @@ export class UserComponent implements OnInit {
 
   subjectChange(event: any) {
     console.log(event.target.value);
+  }
+
+  logoutUser() {
+    var c = confirm("Are you sure you want to logout?");
+    if (c) {
+      this.spinner.show();
+      this.userdata.logoutUser(localStorage.getItem('token')).subscribe((response: any) => {
+
+        setTimeout(() => {
+          /** spinner ends after 5 seconds */
+          this.spinner.hide();
+        }, 1000);
+
+        if (response.code == 1) {
+          localStorage.removeItem('token');
+          this.route.navigate(['/']);
+        }
+        else if (response.code == 2) {
+          this.target = '<div class="alert alert-danger" > Error! ' + response.message + '</div>';
+        }
+
+      });
+    }
+
   }
 
 

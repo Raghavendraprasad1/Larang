@@ -18,8 +18,8 @@ class UsersController extends Controller
         $studendModel = new Student();
 
         // echo "<pre>";
-        $data = $studendModel->getStudent();
-        return response()->json($data);
+        // $data = $studendModel->getStudent();
+        // return response()->json($data);
     }
 
     public function addData(Request $req)

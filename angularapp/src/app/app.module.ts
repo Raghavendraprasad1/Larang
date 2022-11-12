@@ -12,6 +12,7 @@ import { EditComponent } from './edit/edit.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -29,7 +30,8 @@ import { AuthGuard } from './auth.guard';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgbModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],

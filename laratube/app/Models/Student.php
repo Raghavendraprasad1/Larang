@@ -17,12 +17,52 @@ class Student extends Model
         'contact',
     ];
 
-    public function getStudent()
+    public function getStudent($search, $limit, $skip)
     {
-       $users = DB::table('users')
+        if($search != '')
+        {
+            $users = DB::table('users')
             ->join('students', 'students.user_id', '=', 'users.id')
             ->select('users.name', 'users.email', 'users.id', 'students.contact')
+            ->where('users.name', 'like', "%$search%")
+            ->orwhere('users.email', 'like', "%$search%")
+            ->orwhere('students.contact', 'like', "%$search%")
+            ->limit($limit)
+            ->offset($skip)
             ->get();
+        }
+        else{
+            $users = DB::table('users')
+            ->join('students', 'students.user_id', '=', 'users.id')
+            ->select('users.name', 'users.email', 'users.id', 'students.contact')
+            ->limit($limit)
+            ->offset($skip)
+            ->get();
+        }
+       
+
+        return $users;
+    }
+
+    public function getStudentCount($search, $limit, $skip)
+    {
+        if($search != '')
+        {
+            $users = DB::table('users')
+            ->join('students', 'students.user_id', '=', 'users.id')
+            ->select('users.name', 'users.email', 'users.id', 'students.contact')
+            ->where('users.name', 'like', "%$search%")
+            ->orwhere('users.email', 'like', "%$search%")
+            ->orwhere('students.contact', 'like', "%$search%")
+            ->get()->count();
+        }
+        else{
+            $users = DB::table('users')
+            ->join('students', 'students.user_id', '=', 'users.id')
+            ->select('users.name', 'users.email', 'users.id', 'students.contact')
+            ->get()->count();
+        }
+       
 
         return $users;
     }

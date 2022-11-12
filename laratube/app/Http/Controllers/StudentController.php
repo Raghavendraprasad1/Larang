@@ -27,12 +27,22 @@ class StudentController extends Controller
         //
     }
 
-    public function getData()
+    public function getData(Request $req)
     {
+        $search = $req->search;
+        $limit = $req->limit;
+        $skip = $req->skip;
         $studendModel = new Student();
 
-        $data = $studendModel->getStudent();
-        return response()->json($data);
+        $data = $studendModel->getStudent($search, $limit, $skip);
+        $dataCount = $studendModel->getStudentCount($search, $limit, $skip);
+
+        $response = array(
+            'data' => $data,
+            'count' => $dataCount
+        );
+
+        return response()->json($response);
     }
 
     public function getOneData(Request $req)

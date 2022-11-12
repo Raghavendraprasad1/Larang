@@ -28,11 +28,11 @@ Route::post('login', [ApiController::class, 'login']);
 
 Route::group(['middleware' => ['jwt.verify']], function(){
     
-    Route::get('logout', [ApiController::class, 'logout']);
+    Route::get('logout/{token}', [ApiController::class, 'logout']);
 
     Route::get('user', [ApiController::class, 'get_user']);
     Route::get('oneuser/{id}', [ApiController::class, 'get_one_user']);
-    Route::get('student', [StudentController::class, 'getData']);
+    Route::post('student', [StudentController::class, 'getData']);
     Route::post('addstudent', [UsersController::class, 'addData']);
     Route::delete('deleteStudent/{id}', [StudentController::class, 'deleteData']);
 

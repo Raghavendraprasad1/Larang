@@ -25,23 +25,17 @@ export class UserdataService {
   }
 
 
-  getDataFormApi() {
+  getDataFormApi(data:any) {
     this.tokenVal = localStorage.getItem('token');
     this.header = new HttpHeaders({
       'Authorization': `Bearer ${this.tokenVal}`,
     });
-    return this.httpRequest.get(this.API_URL + 'student', {
+    
+    return this.httpRequest.post(this.API_URL + 'student', data, {
       headers: this.header
     });
-
   }
 
-  testLaravelApi() {
-    return this.httpRequest.get(this.API_URL + 'user', {
-      headers: this.header
-    });
-
-  }
 
   addStudent(data: any) {
     return this.httpRequest.post(this.API_URL + 'addstudent', data);
@@ -73,5 +67,11 @@ export class UserdataService {
   }
 
 
+  logoutUser(token:any) {
+    return this.httpRequest.get(this.API_URL + 'logout/' + token, {
+      headers: this.header
+    });
+  }
+  
 
 }

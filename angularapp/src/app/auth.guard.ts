@@ -18,14 +18,16 @@ export class AuthGuard implements CanActivate {
 
     this.token = localStorage.getItem('token');
 
-    const payload = atob(this.token.split('.')[1]); // decode payload of token
-    const parsedPayload = JSON.parse(payload); // convert payload into an Object
+    if(this.token != undefined)
+    {
+      const payload = atob(this.token.split('.')[1]); // decode payload of token
+      const parsedPayload = JSON.parse(payload); // convert payload into an Object
 
-     if(!(parsedPayload.exp > Date.now() / 1000))
-     {
-      this.route.navigate(['/']);
-     }
- 
+      if(!(parsedPayload.exp > Date.now() / 1000))
+      {
+        this.route.navigate(['/']);
+      }
+    }
 
     if (!this.token) {
       this.route.navigate(['/']);
