@@ -17,7 +17,7 @@ export class UserComponent implements OnInit {
   userobj = new User();
   target: string = '';
   token = '';
-  limit:number= 5;
+  limit:number= 5;   // to show total number of value by default
   skip:number=0;
   studentResult:any;
   collectionSize:number=0;
@@ -54,7 +54,6 @@ export class UserComponent implements OnInit {
   }
 
   showApiData() {
-    console.log("page value: ",this.page);
 
       if(this.page == 1)
       {
@@ -64,8 +63,6 @@ export class UserComponent implements OnInit {
         this.skip= (this.page-1) * this.limit;
       }
 
-      console.log("skip value: ",this.skip);
-
     var reqObject = {
       'limit' : this.limit,
       'skip' : this.skip,
@@ -73,9 +70,7 @@ export class UserComponent implements OnInit {
     }
 
     this.userdata.getDataFormApi(reqObject).subscribe(res => {
-      
-      console.log('res value: ', res);
-      // this.studentData = res;
+  
       this.studentResult = res;
       this.studentData = this.studentResult.data;
       this.collectionSize = this.studentResult.count;
@@ -85,6 +80,13 @@ export class UserComponent implements OnInit {
   searchUser()
   {
     this.showApiData();
+  }
+
+  setPageLength()
+  {
+    this.limit=this.userobj.pageLength;
+    this.showApiData();
+    
   }
 
  

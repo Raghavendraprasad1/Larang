@@ -13,6 +13,7 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { OrderModule } from 'ngx-order-pipe';
 
 
 
@@ -31,7 +32,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     BrowserAnimationsModule,
     NgxSpinnerModule,
-    NgbModule
+    NgbModule,
+    OrderModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],

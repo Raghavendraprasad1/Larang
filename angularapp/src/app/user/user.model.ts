@@ -1,6 +1,8 @@
 export class User {
-     name:any;
+     name:string='';
      email:any;
      contact:any;
      search:any='';
+     pageLength:number=5;
+    
 }

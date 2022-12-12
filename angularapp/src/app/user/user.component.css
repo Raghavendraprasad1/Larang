@@ -8,3 +8,10 @@
     float: right;
     margin-top: 20px;
 }
+
+thead{
+    background-color: LightGray;
+}
+th{
+    cursor: pointer;
+}
