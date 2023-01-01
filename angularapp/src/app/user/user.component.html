@@ -39,16 +39,23 @@
 
       <table class="table">
 
+        <!-- 
+          // Icons
+          1. <i class="fa fa-sort" ></i>
+          2. <i class="fa fa-sort-down"></i>
+          3. <i class="fa fa-sort-up"></i>
+         -->
+
         <thead>
           <tr>
-            <th>Name <i class="fa fa-sort" ></i> </th>
-            <th>Email <i class="fa fa-sort" ></i> </th>
-            <th>Contact <i class="fa fa-sort" ></i> </th>
-            <th>Action <i class="fa fa-sort" ></i> </th>
+            <th (click)="orderByMe('name')" >Name <i [ngClass]="classnamesort"></i> </th>
+            <th (click)="orderByMe('email')" >Email <i [ngClass]="classnamesort" ></i> </th>
+            <th (click)="orderByMe('contact')" >Contact <i [ngClass]="classnamesort" ></i> </th>
+            <th>Action </th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let st of studentData | orderBy: 'email'">
+          <tr *ngFor="let st of studentData">
             <td>{{st.name | uppercase}}</td>
             <td>{{st.email}}</td>
             <td>{{st.contact}}</td>

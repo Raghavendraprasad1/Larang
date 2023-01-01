@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class UsersController extends Controller
 {
@@ -99,4 +100,15 @@ class UsersController extends Controller
         return response()->json($json);
         
     }
+
+    public function basic_email() {
+        $data = array('name'=>"Virat Gandhi", "email" => "Raghav@gmail.com", 'contact' => '8574968574');
+     
+        Mail::send('templates.register_email', $data, function($message) {
+           $message->to('raghavendraprasad8009@gmail.com', 'Tutorials Point')->subject
+              ('Laravel Basic Testing Mail');
+           $message->from('raghavendrakumar1520@gmail.com','Virat Gandhi');
+        });
+        echo "Basic Email Sent. Check your inbox.";
+     }
 }

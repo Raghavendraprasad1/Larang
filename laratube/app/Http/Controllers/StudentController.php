@@ -32,9 +32,11 @@ class StudentController extends Controller
         $search = $req->search;
         $limit = $req->limit;
         $skip = $req->skip;
+        $sortval = $req->sort_value;
+        $sortorder = $req->sort_order;
         $studendModel = new Student();
 
-        $data = $studendModel->getStudent($search, $limit, $skip);
+        $data = $studendModel->getStudent($search, $limit, $skip, $sortval, $sortorder);
         $dataCount = $studendModel->getStudentCount($search, $limit, $skip);
 
         $response = array(

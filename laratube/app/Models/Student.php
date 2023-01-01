@@ -17,10 +17,12 @@ class Student extends Model
         'contact',
     ];
 
-    public function getStudent($search, $limit, $skip)
+    public function getStudent($search, $limit, $skip, $sortval, $sortorder)
     {
         if($search != '')
         {
+            if(!empty($sortval) && !empty($sortorder))
+            {
             $users = DB::table('users')
             ->join('students', 'students.user_id', '=', 'users.id')
             ->select('users.name', 'users.email', 'users.id', 'students.contact')
@@ -29,16 +31,45 @@ class Student extends Model
             ->orwhere('students.contact', 'like', "%$search%")
             ->limit($limit)
             ->offset($skip)
+            ->orderBy("$sortval", "$sortorder")
             ->get();
+            }
+            else{
+                $users = DB::table('users')
+                ->join('students', 'students.user_id', '=', 'users.id')
+                ->select('users.name', 'users.email', 'users.id', 'students.contact')
+                ->where('users.name', 'like', "%$search%")
+                ->orwhere('users.email', 'like', "%$search%")
+                ->orwhere('students.contact', 'like', "%$search%")
+                ->limit($limit)
+                ->offset($skip)
+                ->orderBy('name', 'desc')
+                ->get();
+            }
         }
         else{
-            $users = DB::table('users')
-            ->join('students', 'students.user_id', '=', 'users.id')
-            ->select('users.name', 'users.email', 'users.id', 'students.contact')
-            ->limit($limit)
-            ->offset($skip)
-            ->get();
+            if(!empty($sortval) && !empty($sortorder))
+            {
+                $users = DB::table('users')
+                ->join('students', 'students.user_id', '=', 'users.id')
+                ->select('users.name', 'users.email', 'users.id', 'students.contact')
+                ->limit($limit)
+                ->offset($skip)
+                ->orderBy("$sortval", "$sortorder")
+                ->get();
+            }
+            else{
+                $users = DB::table('users')
+                ->join('students', 'students.user_id', '=', 'users.id')
+                ->select('users.name', 'users.email', 'users.id', 'students.contact')
+                ->limit($limit)
+                ->offset($skip)
+                ->get();
+            }
+            
         }
+
+        
        
 
         return $users;

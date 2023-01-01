@@ -21,6 +21,12 @@ export class UserComponent implements OnInit {
   skip:number=0;
   studentResult:any;
   collectionSize:number=0;
+  
+  // sorting variables
+  sortValue:any='';
+  prevValue:any = "";
+	sortOrder:string = '';
+  classnamesort:string='fa fa-sort';
 
   subjects = [
     {
@@ -66,7 +72,9 @@ export class UserComponent implements OnInit {
     var reqObject = {
       'limit' : this.limit,
       'skip' : this.skip,
-      'search': this.userobj.search
+      'search': this.userobj.search,
+      'sort_value' : this.sortValue,
+      'sort_order' : this.sortOrder
     }
 
     this.userdata.getDataFormApi(reqObject).subscribe(res => {
@@ -87,6 +95,27 @@ export class UserComponent implements OnInit {
     this.limit=this.userobj.pageLength;
     this.showApiData();
     
+  }
+
+  orderByMe(x:any)
+  {
+    if(this.prevValue == x)
+	    {
+	    	//descending order
+	    	 this.sortOrder='desc';
+	    	 this.sortValue = x;
+	    	 this.prevValue="";
+        
+	    }
+	    else{
+	    	 // Ascending Order
+	    	 this.sortOrder='asc';
+	       this.sortValue = x;
+	       this.prevValue=x;	
+        //  this.classnamesort='fa fa-sort-down';
+
+	    }
+      this.showApiData();
   }
 
  

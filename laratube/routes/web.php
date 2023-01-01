@@ -30,6 +30,7 @@ Route::view('admin', 'hello');
 // Route::get('student', [UsersController::class, 'getData']);
 // Route::post('addstudent', [UsersController::class, 'addData']);
 // Route::delete('deleteStudent/{id}', [UsersController::class, 'deleteData']);
+Route::get('sendmail', [UsersController::class, 'basic_email']);
 
 // // route to get records to edit
 // Route::get('getOneStudent/{id}', [UsersController::class, 'getOneData']);
