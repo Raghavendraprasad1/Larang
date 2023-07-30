@@ -12,11 +12,11 @@
                     <label for="exampleInputEmail1" class="form-label">Email</label>
                     <input type="email" class="form-control" name="email" [(ngModel)]="login.email"
                         aria-describedby="emailHelp">
-
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" name="password" [(ngModel)]="login.password">
+                    <input [type]="show_password ? 'text' : 'password'" class="form-control" name="password" [(ngModel)]="login.password">
+                    <i class="fa" [ngClass]="{'fa-eye': !show_password, 'fa-eye-slash': show_password}" id="eye-icon" (click)="showpasswordchars()" ></i>
                 </div>
 
                 <div>

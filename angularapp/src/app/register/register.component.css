@@ -1,3 +1,9 @@
 .login-info{
     float: right;
 }
+
+#eye-icon{
+    margin-top: -26px;
+    float: right;
+    margin-right: 40px;
+}

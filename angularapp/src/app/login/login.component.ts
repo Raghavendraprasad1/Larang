@@ -67,4 +67,16 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  show_password = false;
+  showpasswordchars(){
+    if(this.show_password == false)
+    {
+      this.show_password = true;
+    }
+    else{
+      this.show_password = false;
+
+    }
+  }
+
 }

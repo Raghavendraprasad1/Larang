@@ -61,9 +61,9 @@ export class UserdataService {
     });
   }
 
-  registerUser(data: any) {
+  // , { responseType: 'text' }
+  registerUser(data: any) { 
     return this.httpRequest.post(this.API_URL + 'register', data);
-
   }
 
 

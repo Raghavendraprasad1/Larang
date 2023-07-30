@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Student;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 // use Validator;
@@ -17,6 +18,12 @@ class ApiController extends Controller
     public function register(Request $req)
     {
         $data =  $req->only('name', 'email', 'password', 'contact');
+
+         $file = $req->file("file");
+         $uploadPath = "images/profile";
+
+         $originalName = $file->getClientOriginalName();
+         $file->move( $uploadPath,$originalName);
 
 
         $validator = Validator::make($data, [
@@ -41,6 +48,7 @@ class ApiController extends Controller
         {
             $student =  Student::create([
                 'contact'=> $req->contact,
+                'profile_image' => $originalName,
                 'user_id'=> $user->id,  
             ]);
 
@@ -84,7 +92,7 @@ class ApiController extends Controller
                 ], 400);
             }
         } catch (JWTException $e) {
-    	return $credentials;
+    	// return $credentials;
             return response()->json([
                 	'success' => false,
                 	'message' => 'Could not create token.',
@@ -192,7 +200,7 @@ class ApiController extends Controller
                 'success' => false,
                 'code' => 2,
                 'message' => 'Sorry, user cannot be logged out'
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+            ], Response ::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -2,7 +2,7 @@
     <div [innerHtml]="target"> </div>
     <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
 
-    <form  #userForm="ngForm" (ngSubmit)="registerUser()">
+    <form  #userForm="ngForm" (ngSubmit)="registerUser()"  >
         <div class="row">
             <div class="col-sm-3"></div>
             <div class="col-sm-6">
@@ -30,19 +30,34 @@
                       valid contact</span>
                   </div>
 
-                <div class="mb-3">
+                 <div class="mb-3">
                     <label for="pwd" class="form-label">Password:</label>
-                    <input type="password" class="form-control" name="password" [(ngModel)]="register.password" required
+                    <input [type]="show_password ? 'text' : 'password'" class="form-control" name="password" [(ngModel)]="register.password" required
                       #userPassword="ngModel">
+                      <i class="fa" [ngClass]="{'fa-eye': !show_password, 'fa-eye-slash': show_password}" id="eye-icon" (click)="showpasswordchars()" ></i>
                     <span *ngIf="userPassword.invalid && userPassword.touched && !userForm.submitted" style="color: red;">Please enter a
                       valid password</span>
                   </div>
 
+                  <div class="mb-3">
+                    <label for="formFile" class="form-label">Upload Profile Pic</label>
+                    <input type="file" class="form-control" id="formFile" (change) = "imageUpload($event)">
+                  </div>
+
                   <div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" [disabled]="userForm.invalid" class="btn btn-primary">Submit</button>
                     <span class="login-info" title="Click to Login" > Already have an account,  <a href="/">Login</a></span>
                   </div>
             </div>
+
+            <div class="col-sm-3">
+              <div style="float: right;" >
+                <img [src]="imagePreview" style="width: 300px; margin-top: 400px;" class="img-thumbnail"  alt="..." *ngIf="imagePreview" >
+
+              </div>
+
+            </div>
+
         </div>
     </form>
 

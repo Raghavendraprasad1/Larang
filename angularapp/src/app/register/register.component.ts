@@ -13,6 +13,8 @@ export class RegisterComponent implements OnInit {
 
   register = new Register();
   target:any='';
+  file:any;
+  imagePreview:any;
 
   constructor(
     private spinner : NgxSpinnerService,
@@ -23,6 +25,25 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  imageUpload(event:any)
+  {
+    // console.log(event);
+    this.file = event.target.files[0];
+    // console.log(this.file);
+
+    if(this.file)
+    {
+      const reader = new FileReader;
+
+      reader.onload = (e:any) => {
+        this.imagePreview = e.target.result;
+      }
+
+      reader.readAsDataURL(this.file);
+    }
+
+  }
+
   
 
   registerUser()
@@ -31,7 +52,7 @@ export class RegisterComponent implements OnInit {
 
     if(this.register.name == undefined || this.register.email == undefined || this.register.password == undefined || this.register.contact == undefined)
     {
-      this.target = '<div class="alert alert-danger" > Error! Please enter the details</div>';
+      this.target = '<div class="alert alert-danger" > Error! Please enter valid details</div>';
       setTimeout(() => {
         /** spinner ends after 5 seconds */
         this.spinner.hide();
@@ -39,8 +60,17 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    // console.log("inserted data: ",this.userobj.name);
-    this.userdata.registerUser(this.register).subscribe( (response: any) =>{
+    var formdata = new FormData();
+
+    formdata.append("file", this.file, this.file.name);
+    formdata.append("email", this.register.email);
+    formdata.append("name", this.register.name);
+    formdata.append("password", this.register.password);
+    formdata.append("contact", this.register.contact);
+
+
+
+    this.userdata.registerUser(formdata).subscribe( (response: any) =>{
       // this.spinner.hide();
       setTimeout(() => {
         /** spinner ends after 5 seconds */
@@ -66,6 +96,18 @@ export class RegisterComponent implements OnInit {
         this.target = '<div class="alert alert-danger" > Error! '+response.message+'</div>';
       }
     });
+  }
+
+  show_password = false;
+  showpasswordchars(){
+    if(this.show_password == false)
+    {
+      this.show_password = true;
+    }
+    else{
+      this.show_password = false;
+
+    }
   }
 
 }
